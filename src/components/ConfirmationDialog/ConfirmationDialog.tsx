@@ -6,11 +6,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import styles from "./ConfirmationDialog.module.scss";
-
 type Props = {
     open: boolean;
     handleClose: () => void;
     handleConfirm: () => void;
+    // dialogTitle: string;
+    // dialogContentText: string[];
+    // children: React.ReactChildren
 };
 
 export default function ConfirmationDialog(props: Props) {
@@ -29,6 +31,7 @@ export default function ConfirmationDialog(props: Props) {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">{"Cluster details"}</DialogTitle>
+                {/*{{ children }}*/}
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Details ...

@@ -1,10 +1,10 @@
 import React from 'react';
-import './App.css';
-import Button from '@material-ui/core/Button';
-import {AppBar, Grid, IconButton, makeStyles, Theme, Toolbar, Typography} from "@material-ui/core";
+import {AppBar, makeStyles, Theme, Toolbar, Typography} from "@material-ui/core";
 import Kubeconfig from './pages/Kubeconfig/Kubeconfig'
-import ConfirmationDialog from "./components/ConfirmationDialog/ConfirmationDialog";
+// import ConfirmationDialog from "./components/ConfirmationDialog/ConfirmationDialog";
 import ResourceManagement from "./pages/ResourceManagement/ResourceManagement";
+import {getClusterData} from "./services/general-http.service";
+import * as yaml from "js-yaml";
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -25,28 +25,45 @@ const useStyles = makeStyles((theme: Theme) => ({
 function App() {
     const classes = useStyles();
 
-    // const [showKubeconfigPage, setShowKubeconfigPage] = React.useState(true);
-    // const [showManagementPage, setShowManagementPage] = React.useState(false);
-    const [showKubeconfigPage, setShowKubeconfigPage] = React.useState(false);
-    const [showManagementPage, setShowManagementPage] = React.useState(true);
-    const [openDialog, setOpenDialog] = React.useState(false);
-    const handleDialogOpen = () => {
-        setOpenDialog(true);
+    // const [isShowKubeconfigPage, setIsShowKubeconfigPage] = React.useState(true);
+    // const [isShowManagementPage, setIsShowManagementPage] = React.useState(false);
+    const [isShowKubeconfigPage, setIsShowKubeconfigPage] = React.useState(true);
+    const [isShowManagementPage, setIsShowManagementPage] = React.useState(false);
+    // const [openDialog, setOpenDialog] = React.useState(false);
+    // const handleDialogOpen = () => {
+    //     setOpenDialog(true);
+    // };
+    //
+    // const handleDialogClose = () => {
+    //     setOpenDialog(false);
+    // };
+
+    const showManagementPage = () => {
+        setIsShowKubeconfigPage(false)
+        setIsShowManagementPage(true)
     };
 
-    const handleDialogClose = () => {
-        setOpenDialog(false);
-    };
+    const onAcceptedKubeconfig = async (kubeconfig: any) => {
+        let reader = new FileReader();
+        reader.onload = async (e) => {
+            if ( e && e.target) {
+                const res = e.target.result
+                if (typeof res === "string") {
+                    const content = yaml.load(res) as any
+                    if (content["kind"] === "Config"){
+                        //Todo check connectivity to cluster?
+                        // what data on a cluster we can achieve?
+                        const res = await getClusterData();
+                        const clusterData = res.data;
+                        console.log(clusterData);
+                        // const kubecfgContext = content["current-context"]
 
-    const handleDialogConfirm = () => {
-        //Todo navigate to managment page
-        setShowKubeconfigPage(false)
-        setShowManagementPage(true)
-    };
-
-    const onAcceptedKubeconfig = () => {
-        //Todo check connectivity to cluster and get details
-        handleDialogOpen();
+                        showManagementPage();
+                    }
+                }
+            }
+        };
+        reader.readAsText(kubeconfig[0]);
     };
 
     return (
@@ -60,11 +77,11 @@ function App() {
             </AppBar>
             <div className={"fullHeight"}>
                 {
-                    showKubeconfigPage ? <Kubeconfig onAcceptedKubeconfig={onAcceptedKubeconfig}/> :
-                        showManagementPage ? <ResourceManagement/> : <div/>
+                    isShowKubeconfigPage ? <Kubeconfig onAcceptedKubeconfig={onAcceptedKubeconfig}/> :
+                        isShowManagementPage ? <ResourceManagement/> : <div/>
                 }
-                <ConfirmationDialog open={openDialog} handleClose={handleDialogClose}
-                                    handleConfirm={handleDialogConfirm}/>
+                {/*<ConfirmationDialog open={openDialog} handleClose={handleDialogClose}*/}
+                {/*                    handleConfirm={handleDialogConfirm}></ConfirmationDialog>*/}
             </div>
         </div>
     );

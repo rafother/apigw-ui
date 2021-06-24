@@ -1,0 +1,20 @@
+{
+  "apis": [
+    {
+      "id": "api1-ns/api1",
+      "name": "api1",
+      "namespace": "api1-ns",
+      "source": "api1prefix.cd1domain.btpapigw.com",
+      "target": "www.api1target.com",
+      "status": "Ready"
+    },
+    {
+      "id": "api2-ns/api2",
+      "name": "api2",
+      "namespace": "api2-ns",
+      "source": "cd2domain.btpapigw.com",
+      "target": "www.api2target.com",
+      "status": "Deletion in progress/Creation in progress/Failed"
+    }
+  ]
+}

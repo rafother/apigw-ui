@@ -1,21 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createStyles, Theme, makeStyles} from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import DomainIcon from '@material-ui/icons/Domain';
 import DnsIcon from '@material-ui/icons/Dns';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ClusterBadge from '../../components/ClusterBadge/ClusterBadge'
-import ResourceList from "../../components/ResourceList/ResourceList";
 import {Fab} from "@material-ui/core";
 import {Add} from "@material-ui/icons";
+import CreateResourceDialog from "../../components/CreateResourceDialog/CreateResourceDialog";
+import ClusterDrawer, {DrawerListItem} from "../ClusterDrawer/ClusterDrawer"
+import DomainIcon from "@material-ui/icons/Domain";
+import {useInterval} from "../../utils";
+import {getAllAPIs} from "../../services/api-http.service";
+import {getAllCDs} from "../../services/customdomain-http.service";
+import ResourceTable from "../../components/ResourceTable/ResourceTable";
 
 const drawerWidth = 240;
 
@@ -49,49 +45,96 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
+const APIs = "APIs"
+const CDs = "Custom Domains"
+const resources: DrawerListItem[] = [
+    {
+        name: APIs,
+        icon: <DnsIcon/>,
+        selected: true
+    },
+    {
+        name: CDs,
+        icon: <DomainIcon/>,
+        selected: false
+    }
+];
+
 export default function ResourceManagement() {
     const classes = useStyles();
 
-    const [showAPIs, setShowAPIs] = React.useState(true)
-    const [showCustomDomains, setShowCustomDomains] = React.useState(false)
+    const [APIsList, setAPIsList] = React.useState([])
+    const [customDomainsList, setCustomDomainsList] = React.useState([])
+    const [resourceList, setResourceList] = React.useState([APIsList])
+    const [currentView, setCurrentView] = React.useState(APIs)
+
+    const [openDialog, setOpenDialog] = React.useState(false);
+    let [delay, setDelay] = React.useState(1000);
+
+    useEffect(() => {
+        handleResourceListItemChange()
+    })
+
+    useInterval(async () => {
+        const apis = await getAllAPIs()
+        setAPIsList(apis.data)
+        const cds = await getAllCDs()
+        setCustomDomainsList(cds.data)
+        setDelay(1000 * 10)
+    }, delay);
+
+    const handleDialogOpen = () => {
+        setOpenDialog(true);
+    };
+
+    const handleDialogClose = () => {
+        setOpenDialog(false);
+    };
+
+    const handleDialogConfirm = () => {
+        //Todo
+    };
+
+    const onAddResource = () => {
+        //Todo check connectivity to cluster and get details
+        handleDialogOpen();
+    };
+
+    const handleResourceListItemClick = (resName:string) => {
+        setCurrentView(resName)
+        handleResourceListItemChange()
+    }
+    const handleResourceListItemChange = () => {
+        switch (currentView) {
+            case APIs: {
+                resources.forEach(res => {
+                    res.name === APIs ? res.selected = true : res.selected = false
+                })
+                setResourceList(APIsList)
+                break
+            }
+            case CDs: {
+                resources.forEach(res => {
+                    res.name === CDs ? res.selected = true : res.selected = false
+                })
+                setResourceList(customDomainsList)
+                break
+            }
+        }
+
+    }
 
     return (
         <div className={classes.root}>
             <CssBaseline/>
-            <Drawer
-                className={classes.drawer}
-                variant="permanent"
-                classes={{
-                    paper: classes.drawerPaper,
-                }}
-            >
-                <Toolbar/>
-                <div className={classes.drawerContainer}>
-                    <ClusterBadge/>
-                    <List>
-                        <ListItem>
-                            <ListItemText primary="Cluster Name" secondary="Demo"/>
-                        </ListItem>
-                    </List>
-                    <Divider/>
-                    <List>
-                        <ListItem button>
-                            <ListItemIcon> <DnsIcon/></ListItemIcon>
-                            <ListItemText primary="APIs"/>
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon> <DomainIcon/></ListItemIcon>
-                            <ListItemText primary="Custom Domains"/>
-                        </ListItem>
-                    </List>
-                </div>
-            </Drawer>
+            <ClusterDrawer list={resources} clusterName="TBD" clusterConnected={true} clusterIconPath="Fdsfds" onClickListItem={handleResourceListItemClick}/>
             <main className={classes.content}>
-                <Typography className={classes.tableTitle}>Custom Domains:</Typography>
-                <ResourceList/>
-                <Fab className={classes.floatingBtn} color="primary" aria-label="add">
-                    <Add />
+                <ResourceTable data={resourceList}/>
+                <Fab className={classes.floatingBtn} color="primary" aria-label="add" onClick={onAddResource}>
+                    <Add/>
                 </Fab>
+                <CreateResourceDialog open={openDialog} handleClose={handleDialogClose}
+                                      handleConfirm={handleDialogConfirm}/>
             </main>
         </div>
     );
