@@ -6,7 +6,8 @@
       "namespace": "api1-ns",
       "source": "api1prefix.cd1domain.btpapigw.com",
       "target": "www.api1target.com",
-      "status": "Ready"
+      "published": "true",
+      "status": "PublishedSuccessfully"
     },
     {
       "id": "api2-ns/api2",
@@ -14,7 +15,44 @@
       "namespace": "api2-ns",
       "source": "cd2domain.btpapigw.com",
       "target": "www.api2target.com",
-      "status": "Deletion in progress/Creation in progress/Failed"
+      "published": "false",
+      "status": "PublishFailed"
+    },
+    {
+      "id": "api3-ns/api3",
+      "name": "api3",
+      "namespace": "api3-ns",
+      "source": "api3prefix.cd1domain.btpapigw.com",
+      "target": "www.api1target.com",
+      "published": "false",
+      "status": "DeletionInProgress"
+    },
+    {
+      "id": "api4-ns/api4",
+      "name": "api4",
+      "namespace": "api4-ns",
+      "source": "cd4domain.btpapigw.com",
+      "target": "www.api4target.com",
+      "published": "false",
+      "status": "PublishInProgress"
+    },
+    {
+      "id": "api5-ns/api5",
+      "name": "api5",
+      "namespace": "api5-ns",
+      "source": "api5prefix.cd1domain.btpapigw.com",
+      "target": "www.api1target.com",
+      "published": "false",
+      "status": "PublishInProgress"
+    },
+    {
+      "id": "api6-ns/api6",
+      "name": "api6",
+      "namespace": "api6-ns",
+      "source": "cd6domain.btpapigw.com",
+      "target": "www.api6target.com",
+      "published": "true",
+      "status": "PublishedSuccessfully"
     }
   ]
 }

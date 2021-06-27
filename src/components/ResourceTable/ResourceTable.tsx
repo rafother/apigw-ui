@@ -17,25 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
-
-// let rows = [
-//     {
-//         "id": "api1-ns/api1",
-//         "name": "api1",
-//         "namespace": "api1-ns",
-//         "source": "api1prefix.cd1domain.btpapigw.com",
-//         "target": "www.api1target.com",
-//         "status": "Ready"
-//     },
-//     {
-//         "id": "api2-ns/api2",
-//         "name": "api2",
-//         "namespace": "api2-ns",
-//         "source": "cd2domain.btpapigw.com",
-//         "target": "www.api2target.com",
-//         "status": "Not Ready"
-//     }
-// ];
+import {Edit} from "@material-ui/icons";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
@@ -75,9 +57,6 @@ interface HeadCell {
     // numeric: boolean;
 }
 
-//TODO for each headcell add id, display name
-// let headCells: HeadCell[] = [];
-
 interface EnhancedTableProps {
     headCells: HeadCell[]
     classes: ReturnType<typeof useStyles>;
@@ -109,19 +88,19 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                 {headCells.map((headCell: any) => (
                     <TableCell
                         key={headCell.id}
-                        // sortDirection={orderBy === headCell.id ? order : false}
+                        sortDirection={orderBy === headCell.id ? order : false}
                     >
                         <TableSortLabel
-                            // active={orderBy === headCell.id}
-                            // direction={orderBy === headCell.id ? order : 'asc'}
-                            // onClick={createSortHandler(headCell.id)}
+                            active={orderBy === headCell.id}
+                            direction={orderBy === headCell.id ? order : 'asc'}
+                            onClick={createSortHandler(headCell.id)}
                         >
                             {headCell.label}
-                            {/*            {orderBy === headCell.id ? (*/}
-                            {/*                <span className={classes.visuallyHidden}>*/}
-                            {/*  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}*/}
-                            {/*</span>*/}
-                            {/*            ) : null}*/}
+                            {orderBy === headCell.id ? (
+                                <span className={classes.visuallyHidden}>
+                              {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                            </span>
+                            ) : null}
                         </TableSortLabel>
                     </TableCell>
                 ))}
@@ -153,6 +132,7 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
 );
 
 interface EnhancedTableToolbarProps {
+    listName: string;
     numSelected: number;
 }
 
@@ -172,7 +152,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
                 </Typography>
             ) : (
                 <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-                    Custom Domains
+                    {props.listName}
                 </Typography>
             )}
             {numSelected > 0 ? (
@@ -219,7 +199,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type Props = {
-    data: any[];
+    list: any[];
+    listName: string
 }
 
 export default function ResourceTable(props: Props) {
@@ -227,17 +208,17 @@ export default function ResourceTable(props: Props) {
     const [rows, setTableRows] = useState<any>([])
 
     useEffect(() => {
-        processTableData(props.data)
-    }, [props.data])
+        processTableData()
+    }, [props.list])
 
-    const processTableData = (data: any) => {
-        const cols = calcTableHead(data);
-        calcTableRows(data, cols)
+    const processTableData = () => {
+        calcTableHead();
+        calcTableRows()
     }
 
-    const calcTableHead = (data: any) => {
+    const calcTableHead = () => {
         let cols: any[] = [];
-        data.forEach((result: any) => {
+        props.list.forEach((result: any) => {
             const keys = Object.keys(result)
             keys.forEach((col) => {
                 if (!cols.includes(col)) {
@@ -245,7 +226,7 @@ export default function ResourceTable(props: Props) {
                 }
             });
         });
-        //remove id as we are not presenting it
+        // remove id as we are not presenting it
         const IdIndex = cols.indexOf("id")
         if (IdIndex !== -1) {
             cols.splice(IdIndex, 1)
@@ -254,43 +235,13 @@ export default function ResourceTable(props: Props) {
             id: col,
             label: col[0].toUpperCase() + col.slice(1)
         }))
+        tableHead.push({id: "actions", label: ""})
         setTableHeadCols(tableHead);
-        return tableHead;
     }
 
-    const calcTableRows = (data: any, cols: any) => {
-        // let rows: any[] = []
-        // let row: any[] = [];
-        // props.data.forEach(result => {
-        //     cols.forEach((col: any) => {
-        //         row.push(
-        //             Object.keys(result).map((item) => {
-        //                 if (result[item] && item === col.id) {
-        //                     return result[item];
-        //                 } else if (item === col.id) {
-        //                     return "No Value";
-        //                 }
-        //             })
-        //         );
-        //     });
-        //     row = filterDeepUndefinedValues(row);
-        // })
-        setTableRows(props.data)
+    const calcTableRows = () => {
+        setTableRows(props.list)
     }
-
-    const filterDeepUndefinedValues = (arr: any) => {
-        return arr
-            .map((val: any) =>
-                val.map((deepVal: any) => deepVal).filter((deeperVal: any) => deeperVal)
-            )
-            .map((val: any) => {
-                if (val.length < 1) {
-                    val = ["-"];
-                    return val;
-                }
-                return val;
-            });
-    };
 
     const classes = useStyles();
     const [order, setOrder] = React.useState<Order>('asc');
@@ -350,7 +301,7 @@ export default function ResourceTable(props: Props) {
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <EnhancedTableToolbar numSelected={selected.length}/>
+                <EnhancedTableToolbar listName={props.listName} numSelected={selected.length}/>
                 <TableContainer>
                     <Table
                         className={classes.table}
@@ -390,13 +341,19 @@ export default function ResourceTable(props: Props) {
                                                     inputProps={{'aria-labelledby': labelId}}
                                                 />
                                             </TableCell>
-                                            <TableCell component="th" id={labelId} scope="row" padding="none">
-                                                {row.name}
+                                            {Object.keys(row).filter(key => key !== "id").map(key => (
+                                                <TableCell component="th" scope="row">
+                                                    {row[key]}
+                                                </TableCell>
+                                            ))}
+                                            <TableCell padding="none">
+                                                <IconButton aria-label="delete" >
+                                                    <Edit />
+                                                </IconButton>
+                                                <IconButton  aria-label="delete" >
+                                                    <DeleteIcon />
+                                                </IconButton>
                                             </TableCell>
-                                            <TableCell align="right">{row.name}</TableCell>
-                                            <TableCell align="right">{row.namespace}</TableCell>
-                                            <TableCell align="right">{row.target}</TableCell>
-                                            <TableCell align="right">{row.source}</TableCell>
                                         </TableRow>
                                     );
                                 })}

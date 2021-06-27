@@ -27,8 +27,8 @@ function App() {
 
     // const [isShowKubeconfigPage, setIsShowKubeconfigPage] = React.useState(true);
     // const [isShowManagementPage, setIsShowManagementPage] = React.useState(false);
-    const [isShowKubeconfigPage, setIsShowKubeconfigPage] = React.useState(true);
-    const [isShowManagementPage, setIsShowManagementPage] = React.useState(false);
+    const [isShowKubeconfigPage, setIsShowKubeconfigPage] = React.useState(false);
+    const [isShowManagementPage, setIsShowManagementPage] = React.useState(true);
     // const [openDialog, setOpenDialog] = React.useState(false);
     // const handleDialogOpen = () => {
     //     setOpenDialog(true);

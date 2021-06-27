@@ -1,17 +1,17 @@
 {
   "customdomains": [
     {
-      "domain": "cd1domain.btpapigw.com",
       "id": "cd1-ns/cd1",
       "name": "cd1",
       "namespace": "cd1-ns",
+      "domain": "cd1domain.btpapigw.com",
       "status": "Ready"
     },
     {
-      "domain": "cd2domain.btpapigw.com",
       "id": "cd2-ns/cd2",
       "name": "cd2",
       "namespace": "cd2-ns",
+      "domain": "cd2domain.btpapigw.com",
       "status": "Not Ready"
     }
   ]

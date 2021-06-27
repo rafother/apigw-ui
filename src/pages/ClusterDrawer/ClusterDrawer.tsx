@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface DrawerListItem {
+    id: string;
     name: string;
     icon: React.ReactNode;
     selected: boolean

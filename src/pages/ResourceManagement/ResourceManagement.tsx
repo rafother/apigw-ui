@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {createStyles, Theme, makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import DnsIcon from '@material-ui/icons/Dns';
 import {Fab} from "@material-ui/core";
 import {Add} from "@material-ui/icons";
@@ -49,11 +48,13 @@ const APIs = "APIs"
 const CDs = "Custom Domains"
 const resources: DrawerListItem[] = [
     {
+        id: "apis",
         name: APIs,
         icon: <DnsIcon/>,
         selected: true
     },
     {
+        id: "customdomains",
         name: CDs,
         icon: <DomainIcon/>,
         selected: false
@@ -127,9 +128,9 @@ export default function ResourceManagement() {
     return (
         <div className={classes.root}>
             <CssBaseline/>
-            <ClusterDrawer list={resources} clusterName="TBD" clusterConnected={true} clusterIconPath="Fdsfds" onClickListItem={handleResourceListItemClick}/>
+            <ClusterDrawer list={resources} clusterName="TBD" clusterConnected={true} clusterIconPath="TBD" onClickListItem={handleResourceListItemClick}/>
             <main className={classes.content}>
-                <ResourceTable data={resourceList}/>
+                <ResourceTable listName={currentView} list={resourceList}/>
                 <Fab className={classes.floatingBtn} color="primary" aria-label="add" onClick={onAddResource}>
                     <Add/>
                 </Fab>
