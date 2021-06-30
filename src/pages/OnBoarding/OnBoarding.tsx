@@ -7,7 +7,7 @@ import _ from "lodash";
 const formReducer = (state: any, event: any) => {
     return {
       ...state,
-      [event.target.name]: event.target.value
+      [event.name]: event.value
     }
    }
 
@@ -29,6 +29,13 @@ function OnBoarding() {
         await submitOnBoarding(formData);
     }
 
+    const handleChange = (event: any) => {
+        setFormData({
+          name: event.target.name,
+          value: event.target.value,
+        });
+      }
+
     const isDisabled = () => {
         return !(!_.isEmpty(formData.email) && !_.isEmpty(formData.subdomain) && !_.isEmpty(formData.lob));
     }
@@ -37,9 +44,9 @@ function OnBoarding() {
             <div className={styles.OnBoarding}>
                 {
                     <form onSubmit={handleSubmit} noValidate autoComplete="off">
-                        <TextField id="email-input" fullWidth className={styles.formInputField} label="Email address" name="email" required={true} onChange={setFormData} />
-                        <TextField id="lob-input" fullWidth  className={styles.formInputField} name="lob" label="LOB" required={true} onChange={setFormData} />
-                        <TextField id="subdomain-input" fullWidth  className={styles.formInputField} name="subdomain" label="Subdomain" required={true} onChange={setFormData} />
+                        <TextField id="email-input" fullWidth className={styles.formInputField} label="Email address" name="email" required={true} onChange={handleChange} />
+                        <TextField id="lob-input" fullWidth  className={styles.formInputField} name="lob" label="LOB" required={true} onChange={handleChange} />
+                        <TextField id="subdomain-input" fullWidth  className={styles.formInputField} name="subdomain" label="Subdomain" required={true} onChange={handleChange} />
                         <Button variant="contained" type="submit" className={styles.submitButton} disabled={isDisabled()}>On Boarding</Button>
                     </form>
                 }
