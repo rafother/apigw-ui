@@ -12,7 +12,7 @@ export const isMockEnabled = () => {
 export const initializeAxiosMockAdapter = (instance) => {
     const mock = new MockAdapter(instance);
     mock.onGet("/clusterdata").reply(() => getClusterData());
-    mock.onGet("/apis").reply(() => getAPIs());
+    mock.onGet("/api").reply(() => getAPIs());
     mock.onGet(/\/apis\/\d+/).reply(config => getAPI(config));
     mock.onPost("/apis").reply(config => addAPI(config));
     mock.onPut(/\/apis\/\d+/).reply(config => editAPI(config));
