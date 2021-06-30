@@ -5,9 +5,12 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import {DialogContentText} from "@material-ui/core";
 
 type Props = {
     open: boolean;
+    resource: string
+    fields: string[];
     handleClose: () => void;
     handleConfirm: () => void;
 };
@@ -24,20 +27,21 @@ export default function CreateResourceDialog(props: Props) {
     return (
         <div>
             <Dialog open={props.open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Create Costume Domain</DialogTitle>
+                <DialogTitle id="form-dialog-title">Create {props.resource}</DialogTitle>
                 <DialogContent>
-                    {/*<DialogContentText>*/}
-                    {/*    To subscribe to this website, please enter your email address here. We will send updates*/}
-                    {/*    occasionally.*/}
-                    {/*</DialogContentText>*/}
-                    <TextField
-                        autoFocus
+                    <DialogContentText>
+                        To subscribe to this website, please enter your email address here. We will send updates
+                        occasionally.
+                    </DialogContentText>
+                    {props.fields.map((field: string) => <TextField
+                        // autoFocus
                         margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
+                        id={field}
+                        label={field}
+                        type=""
                         fullWidth
-                    />
+
+                    />)}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">

@@ -26,18 +26,20 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export interface DrawerListItem {
+export interface ResourceView {
     id: string;
     name: string;
     icon: React.ReactNode;
-    selected: boolean
+    data: any[];
+    configurableProps: string[]
 }
 
 type Props = {
     clusterIconPath: string;
     clusterName: string;
     clusterConnected: boolean;
-    list: DrawerListItem[];
+    list: ResourceView[];
+    currentView: string;
     onClickListItem: (name: string) => void;
 }
 
@@ -68,7 +70,7 @@ export default function ClusterDrawer(props: Props) {
                 <Divider/>
                 <List>
                     {props.list.map(item =>
-                        <DynamicListItem key={item.name} selected={item.selected} name={item.name} icon={item.icon}
+                        <DynamicListItem key={item.name} selected={item.name === props.currentView} name={item.name} icon={item.icon}
                                          handleClick={() => handleListItemClick(item.name)}/>
                     )}
                 </List>

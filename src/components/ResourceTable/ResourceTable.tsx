@@ -194,7 +194,7 @@ const useStyles = makeStyles((theme: Theme) =>
             position: 'absolute',
             top: 20,
             width: 1,
-        },
+        }
     }),
 );
 
@@ -206,15 +206,15 @@ type Props = {
 export default function ResourceTable(props: Props) {
     const [tableHeadCols, setTableHeadCols] = useState<HeadCell[]>([])
     const [rows, setTableRows] = useState<any>([])
-
-    useEffect(() => {
-        processTableData()
-    }, [props.list])
-
     const processTableData = () => {
         calcTableHead();
         calcTableRows()
     }
+    useEffect(() => {
+        processTableData()
+    }, [props.list])
+
+
 
     const calcTableHead = () => {
         let cols: any[] = [];
@@ -233,7 +233,7 @@ export default function ResourceTable(props: Props) {
         }
         const tableHead: HeadCell[] = cols.map(col => ({
             id: col,
-            label: col[0].toUpperCase() + col.slice(1)
+            label: col.split("-").map((w: string)=>w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
         }))
         tableHead.push({id: "actions", label: ""})
         setTableHeadCols(tableHead);
@@ -307,6 +307,7 @@ export default function ResourceTable(props: Props) {
                         className={classes.table}
                         aria-labelledby="tableTitle"
                         aria-label="enhanced table"
+                        size="small"
                     >
                         <EnhancedTableHead
                             headCells={tableHeadCols}
@@ -342,16 +343,16 @@ export default function ResourceTable(props: Props) {
                                                 />
                                             </TableCell>
                                             {Object.keys(row).filter(key => key !== "id").map(key => (
-                                                <TableCell component="th" scope="row">
+                                                <TableCell>
                                                     {row[key]}
                                                 </TableCell>
                                             ))}
-                                            <TableCell padding="none">
-                                                <IconButton aria-label="delete" >
-                                                    <Edit />
+                                            <TableCell align="right" padding="none">
+                                                <IconButton aria-label="delete">
+                                                    <Edit/>
                                                 </IconButton>
-                                                <IconButton  aria-label="delete" >
-                                                    <DeleteIcon />
+                                                <IconButton aria-label="delete">
+                                                    <DeleteIcon/>
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow>
