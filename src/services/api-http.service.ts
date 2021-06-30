@@ -1,7 +1,7 @@
 import {axiosInstance} from "../axios-instance";
 
 export const getAllAPIs = () => {
-    return axiosInstance.get("/api"); // TODO: should the path be /api or /apis ?
+    return axiosInstance.get("/api");
 };
 
 export const getAPI = (id: string) => {
