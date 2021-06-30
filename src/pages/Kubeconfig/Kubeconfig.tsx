@@ -42,20 +42,23 @@ function Kubeconfig(props: Props) {
         props.onAcceptedKubeconfig(acceptedFile);
     },[props])
 
+
     const {
         getRootProps,
         getInputProps,
         isDragActive,
         isDragAccept,
         isDragReject
-    } = useDropzone({accept: 'application/x-yaml', multiple: false, onDrop});
+    } = useDropzone({multiple: false, onDrop});
+    // TODO: add accept: 'application/x-yaml, text/x-yaml, text/yaml, application/yaml'.
+    // My kubeconfiges do not include types therefore not getting accepted.
 
     return (
         <div>
             <div className={styles.Kubeconfig}>
                 <Container {...getRootProps({isDragActive, isDragAccept, isDragReject})}>
                     <Typography variant="h5">
-                        Connect To Cluster
+                        Connect To Cluster test
                     </Typography>
                     <input {...getInputProps()} />
                     <img alt="kubeconfig-file" src="/static/images/kubeimg.png"/>

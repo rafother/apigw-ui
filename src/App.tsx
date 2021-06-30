@@ -1,9 +1,9 @@
 import React from 'react';
 import {AppBar, makeStyles, Theme, Toolbar, Typography} from "@material-ui/core";
 import Kubeconfig from './pages/Kubeconfig/Kubeconfig'
-// import ConfirmationDialog from "./components/ConfirmationDialog/ConfirmationDialog";
 import ResourceManagement from "./pages/ResourceManagement/ResourceManagement";
-import {getClusterData} from "./services/general-http.service";
+import OnBoarding from "./pages/OnBoarding/OnBoarding";
+// import {getClusterData} from "./services/general-http.service";
 import * as yaml from "js-yaml";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -25,10 +25,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 function App() {
     const classes = useStyles();
 
-    // const [isShowKubeconfigPage, setIsShowKubeconfigPage] = React.useState(true);
-    // const [isShowManagementPage, setIsShowManagementPage] = React.useState(false);
-    const [isShowKubeconfigPage, setIsShowKubeconfigPage] = React.useState(false);
-    const [isShowManagementPage, setIsShowManagementPage] = React.useState(true);
+    const [isShowKubeconfigPage, setIsShowKubeconfigPage] = React.useState(true);
+    const [isShowManagementPage, setIsShowManagementPage] = React.useState(false);
+
+    // For resource management page developement uncomment this an =d commend the two lines above
+    // const [isShowKubeconfigPage, setIsShowKubeconfigPage] = React.useState(false);
+    // const [isShowManagementPage, setIsShowManagementPage] = React.useState(true);
+
+
     // const [openDialog, setOpenDialog] = React.useState(false);
     // const handleDialogOpen = () => {
     //     setOpenDialog(true);
@@ -53,9 +57,11 @@ function App() {
                     if (content["kind"] === "Config"){
                         //Todo check connectivity to cluster?
                         // what data on a cluster we can achieve?
-                        const res = await getClusterData();
-                        const clusterData = res.data;
-                        console.log(clusterData);
+
+                        // const res = await getClusterData();
+                        // const clusterData = res.data;
+                        // console.log(clusterData);
+
                         // const kubecfgContext = content["current-context"]
 
                         showManagementPage();
@@ -77,6 +83,7 @@ function App() {
             </AppBar>
             <div className={"fullHeight"}>
                 {
+                    window.location.pathname === "/onBoarding" ? <OnBoarding /> :
                     isShowKubeconfigPage ? <Kubeconfig onAcceptedKubeconfig={onAcceptedKubeconfig}/> :
                         isShowManagementPage ? <ResourceManagement/> : <div/>
                 }

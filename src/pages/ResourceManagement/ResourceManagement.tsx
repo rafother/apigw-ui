@@ -45,8 +45,8 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const APIs = "APIs"
-const CDs = "Custom Domains"
+const APIs = "APIs";
+const CDs = "Custom Domains";
 
 
 export default function ResourceManagement() {
@@ -100,13 +100,11 @@ export default function ResourceManagement() {
     };
 
     const handleCreateDialogConfirm = async () => {
-        // data
-        // await axiosInstance.post(currentView.id, data);
-        //Todo
+        //TODO
     };
 
     const onAddResource = () => {
-        //Todo check connectivity to cluster and get details
+        //Todo check connectivity to cluster and get details?
         handleDialogOpen();
     };
 
@@ -119,10 +117,35 @@ export default function ResourceManagement() {
 
     const updateData = async () => {
         const res = await axiosInstance.get(`/${currentView.id}`)
-
-        currentView.data = res.data
+        switch (currentView.name) {
+            case APIs: {
+                currentView.data = transformAllAPIsData(res.data)
+                break
+            }
+            case CDs: {
+                // TODO
+                break
+            }
+        }
+        // currentView.data = res.data
         let newView = {...currentView} // must create new object so react will re-render with the new data
         setCurrentView(newView)
+    }
+
+    function transformAllAPIsData(apisData: any) {
+        const apisTransformed: any = [];
+        apisData.forEach((apiData: any) => {
+            apisTransformed.push({
+                id: apiData.metadata.uid,
+                name: apiData.metadata.name,
+                namespace: apiData.metadata.namespace,
+                source: apiData.spec.source.domain,
+                target: apiData.spec.target.host,
+                status: apiData.status.lastOperation.state
+            });
+        });
+
+        return apisTransformed;
     }
 
     return (

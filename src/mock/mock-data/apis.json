@@ -1,70 +1,158 @@
 {
   "apis": [
     {
-      "id": "api1-ns/api1",
-      "name": "api1",
-      "namespace": "api1-ns",
-      "source-prefix": "api1prefix",
-      "source-domain": "cd1domain.btpapigw.com",
-      "target-host": "www.api1target.com",
-      "target-port": 443,
-      "published": "true",
-      "status": "PublishedSuccessfully"
+      "metadata": {
+        "id": "api1-ns/api1",
+        "name": "api1",
+        "namespace": "api1-ns"
+      },
+      "spec": {
+        "source": {
+          "domain": "api1prefix.cd1domain.btpapigw.com"
+        },
+        "target": {
+          "host": "www.api1target.com"
+        }
+      },
+      "status": {
+        "lastOperation": {
+          "state": "PublishedSuccessfully"
+        }
+      }
     },
     {
-      "id": "api2-ns/api2",
-      "name": "api2",
-      "namespace": "api2-ns",
-      "source-prefix": "api2prefix",
-      "source-domain": "cd2domain.btpapigw.com",
-      "target-host": "www.api2target.com",
-      "target-port": 80,
-      "published": "false",
-      "status": "PublishFailed"
-    },
-    {
-      "id": "api3-ns/api3",
-      "name": "api3",
-      "namespace": "api3-ns",
-      "source-prefix": "api3prefix",
-      "source-domain": "cd3domain.btpapigw.com",
-      "target-host": "www.api3target.com",
-      "target-port": 8080,
-      "published": "false",
-      "status": "DeletionInProgress"
-    },
-    {
-      "id": "api4-ns/api4",
-      "name": "api4",
-      "namespace": "api4-ns",
-      "source-prefix": "api4prefix",
-      "source-domain": "cd4domain.btpapigw.com",
-      "target-host": "www.api4target.com",
-      "target-port": 443,
-      "published": "false",
-      "status": "PublishInProgress"
-    },
-    {
-      "id": "api5-ns/api5",
-      "name": "api5",
-      "namespace": "api5-ns",
-      "source-prefix": "api5prefix",
-      "source-domain": "cd5domain.btpapigw.com",
-      "target-host": "www.api5target.com",
-      "target-port": 443,
-      "published": "false",
-      "status": "PublishInProgress"
-    },
-    {
-      "id": "api6-ns/api6",
-      "name": "api6",
-      "namespace": "api6-ns",
-      "source-prefix": "api6prefix",
-      "source-domain": "cd6domain.btpapigw.com",
-      "target-host": "www.api6target.com",
-      "target-port": 443,
-      "published": "true",
-      "status": "PublishedSuccessfully"
+      "metadata": {
+        "id": "api2-ns/api2",
+        "name": "api2",
+        "namespace": "api2-ns"
+      },
+      "spec": {
+        "source": {
+          "domain": "api2prefix.cd1domain.btpapigw.com"
+        },
+        "target": {
+          "host": "www.api2target.com"
+        }
+      },
+      "status": {
+        "lastOperation": {
+          "state": "PublishedSuccessfully"
+        }
+      }
+    },    {
+      "metadata": {
+        "id": "api3-ns/api3",
+        "name": "api3",
+        "namespace": "api3-ns"
+      },
+      "spec": {
+        "source": {
+          "domain": "api3prefix.cd1domain.btpapigw.com"
+        },
+        "target": {
+          "host": "www.api3target.com"
+        }
+      },
+      "status": {
+        "lastOperation": {
+          "state": "PublishedSuccessfully"
+        }
+      }
+    },    {
+      "metadata": {
+        "id": "api4-ns/api4",
+        "name": "api4",
+        "namespace": "api4-ns"
+      },
+      "spec": {
+        "source": {
+          "domain": "api4prefix.cd1domain.btpapigw.com"
+        },
+        "target": {
+          "host": "www.api4target.com"
+        }
+      },
+      "status": {
+        "lastOperation": {
+          "state": "PublishedSuccessfully"
+        }
+      }
+    },    {
+      "metadata": {
+        "id": "api5-ns/api5",
+        "name": "api5",
+        "namespace": "api5-ns"
+      },
+      "spec": {
+        "source": {
+          "domain": "api5prefix.cd1domain.btpapigw.com"
+        },
+        "target": {
+          "host": "www.api5target.com"
+        }
+      },
+      "status": {
+        "lastOperation": {
+          "state": "PublishedSuccessfully"
+        }
+      }
+    },    {
+      "metadata": {
+        "id": "api6-ns/api6",
+        "name": "api6",
+        "namespace": "api6-ns"
+      },
+      "spec": {
+        "source": {
+          "domain": "api6prefix.cd6domain.btpapigw.com"
+        },
+        "target": {
+          "host": "www.api6target.com"
+        }
+      },
+      "status": {
+        "lastOperation": {
+          "state": "PublishFailed"
+        }
+      }
+    },    {
+      "metadata": {
+        "id": "api7-ns/api7",
+        "name": "api7",
+        "namespace": "api7-ns"
+      },
+      "spec": {
+        "source": {
+          "domain": "api7prefix.cd1domain.btpapigw.com"
+        },
+        "target": {
+          "host": "www.api7target.com"
+        }
+      },
+      "status": {
+        "lastOperation": {
+          "state": "PublishInProgress"
+        }
+      }
+    },    {
+      "metadata": {
+        "id": "api8-ns/api8",
+        "name": "api8",
+        "namespace": "api8-ns"
+      },
+      "spec": {
+        "source": {
+          "domain": "api8prefix.cd1domain.btpapigw.com"
+        },
+        "target": {
+          "host": "www.api8target.com"
+        }
+      },
+      "status": {
+        "lastOperation": {
+          "state": "PublishFailed"
+        }
+      }
     }
   ]
 }
