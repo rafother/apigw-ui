@@ -54,7 +54,7 @@ export default function ResourceManagement() {
 
     const resourcesViews: ResourceView[] = [
         {
-            id: "apis",
+            id: "api",
             name: APIs,
             icon: <DnsIcon/>,
             data: [],
